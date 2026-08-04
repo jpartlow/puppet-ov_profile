@@ -1,0 +1,74 @@
+{
+  "name": "puppet-ov_profile",
+  "version": "0.1.0",
+  "summary": "A set of Puppet profiles for administering specific services within the OpenVox stack.",
+  "author": "Josh Partlow",
+  "license": "AGPL-3.0",
+  "source": "https://github.com/voxpupuli/puppet-ov_profile",
+  "project_page": "https://github.com/voxpupuli/puppet-ov_profile",
+  "issues_url": "https://github.com/voxpupuli/puppet-ov_profile/issues",
+  "dependencies": [
+    {
+      "name": "puppet-puppet",
+      "version_requirement": ">= 22.4.0 < 23.0.0"
+    },
+    {
+      "name": "puppet-openvoxdb",
+      "version_requirement": ">= 9.1.1 < 10.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "12",
+        "13"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "22.04",
+        "24.04",
+        "26.04"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "openvox",
+      "version_requirement": ">= 8.19.0 < 9.0.0"
+    }
+  ]
+}
