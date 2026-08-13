@@ -9,7 +9,7 @@
   "issues_url": "https://github.com/voxpupuli/puppet-ov_profile/issues",
   "dependencies": [
     {
-      "name": "puppet-puppet",
+      "name": "theforeman-puppet",
       "version_requirement": ">= 22.4.0 < 23.0.0"
     },
     {
