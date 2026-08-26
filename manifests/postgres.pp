@@ -1,3 +1,8 @@
+# Install and configure PostgreSQL for openvoxdb.
+#
+# @param additional_ovdb_servers An array of additional openvoxdb
+#   servers that need cert authorization for https access to the
+#   PostgreSQL server.
 class ov_profile::postgres (
   Array[String[1]] $additional_ovdb_servers = [],
 ) {

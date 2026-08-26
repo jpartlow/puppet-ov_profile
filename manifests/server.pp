@@ -1,3 +1,4 @@
+# Configure openvox-server.
 class ov_profile::server {
   contain 'puppet'
   $puppetdb_server = lookup(
