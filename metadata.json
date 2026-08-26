@@ -15,6 +15,10 @@
     {
       "name": "puppet-openvoxdb",
       "version_requirement": ">= 9.1.1 < 10.0.0"
+    },
+    {
+      "name": "puppetlabs-haproxy",
+      "version_requirement": ">= 9.1.0 < 10.0.0"
     }
   ],
   "operatingsystem_support": [

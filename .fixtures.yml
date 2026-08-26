@@ -5,6 +5,7 @@ fixtures:
     cron_core: puppetlabs-cron_core
     concat: puppetlabs-concat
     firewall: puppetlabs-firewall
+    haproxy: puppetlabs-haproxy
     inifile: puppetlabs-inifile
     openvoxdb: puppet-openvoxdb
     postgresql: puppetlabs-postgresql
