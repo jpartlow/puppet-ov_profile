@@ -1,12 +1,21 @@
 # Install and configure PostgreSQL for openvoxdb.
 #
+# @param max_connections Maximum number of connections the Postgresql
+#   instance will accept.
 # @param additional_ovdb_servers An array of additional openvoxdb
 #   servers that need cert authorization for https access to the
 #   PostgreSQL server.
 class ov_profile::postgres (
+  Integer $max_connections = 200,
   Array[String[1]] $additional_ovdb_servers = [],
 ) {
   contain 'openvoxdb::database::postgresql'
+
+  postgresql::server::config_entry { 'max_connections':
+    ensure => 'present',
+    value  => $max_connections,
+    # the define manages its requires
+  }
 
   $database_name     = $openvoxdb::database::postgresql::database_name
   $database_username =

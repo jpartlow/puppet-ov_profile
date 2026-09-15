@@ -9,6 +9,16 @@ describe 'ov_profile::postgres' do
 
       it { is_expected.to compile.with_all_deps }
 
+      it 'configures max_connections' do
+        is_expected.to(
+          contain_postgresql__server__config_entry('max_connections')
+            .with(
+              ensure: 'present',
+              value: 200,
+            ),
+        )
+      end
+
       context 'with multiple ovdb servers' do
         let(:params) do
           {
