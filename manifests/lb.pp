@@ -1,5 +1,8 @@
 # Configure an haproxy load balancer.
 #
+# TODO: maxconn needs to be configurable, both for the listen, and
+# member sides.
+#
 # @param members The nodes to balance across.
 # @param type The type of nodes being balanced (affects defaults).
 # @param port The service port.

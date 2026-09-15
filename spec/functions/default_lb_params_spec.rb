@@ -48,6 +48,7 @@ describe 'ov_profile::default_lb_params' do
               'rise 2',
               'fall 3',
             ],
+            'maxconn 100',
           ],
         ),
       )
@@ -90,6 +91,7 @@ describe 'ov_profile::default_lb_params' do
         run.with_params('ovdb', 'member_options').and_return(
           [
             'check inter 10s rise 2 fall 3',
+            'maxconn 200',
           ],
         ),
       )

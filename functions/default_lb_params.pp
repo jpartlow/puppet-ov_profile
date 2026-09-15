@@ -40,6 +40,7 @@ function ov_profile::default_lb_params(
           'rise 2',
           'fall 3',
         ],
+        'maxconn 100',
       ],
     },
     'ovdb' => {
@@ -65,6 +66,7 @@ function ov_profile::default_lb_params(
       },
       'member_options' => [
         'check inter 10s rise 2 fall 3',
+        'maxconn 200',
       ],
     },
   }
