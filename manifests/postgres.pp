@@ -11,15 +11,24 @@ class ov_profile::postgres (
   $database_name     = $openvoxdb::database::postgresql::database_name
   $database_username =
     $openvoxdb::database::postgresql::database_username
-  $postgres_version  =
-    $openvoxdb::database::postgresql::postgres_version
+  $read_database_username =
+    $openvoxdb::database::postgresql::read_database_username
+  $rw_identity_map_key = "${database_name}-${database_username}-map"
+  $ro_identity_map_key =
+    "${database_name}-${read_database_username}-map"
 
   $additional_ovdb_servers.each() |$ovdb| {
-    openvoxdb::database::postgresql_ssl_rules { "ovox: additional postgresql ssl rules for ${ovdb}":
-      database_name     => $database_name,
+    postgresql::server::pg_ident_rule { "ovox: mapping of ${ovdb} cert as a ${database_username} user":
+      map_name          => $rw_identity_map_key,
+      system_username   => $ovdb,
       database_username => $database_username,
-      postgres_version  => $postgres_version,
-      puppetdb_server   => $ovdb,
+      require           => Class['openvoxdb::database::postgresql'],
+    }
+
+    postgresql::server::pg_ident_rule { "ovox: mapping of ${ovdb} cert as a ${read_database_username} user":
+      map_name          => $ro_identity_map_key,
+      system_username   => $ovdb,
+      database_username => $read_database_username,
       require           => Class['openvoxdb::database::postgresql'],
     }
   }

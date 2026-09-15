@@ -18,13 +18,26 @@ describe 'ov_profile::postgres' do
 
         it 'generates additional ssl configuration' do
           is_expected.to(
-            contain_openvoxdb__database__postgresql_ssl_rules('ovox: additional postgresql ssl rules for ovdb2.spec')
+            contain_postgresql__server__pg_ident_rule(
+              'ovox: mapping of ovdb2.spec cert as a puppetdb user',
+            )
               .with(
-                database_name:     'puppetdb',
+                map_name: 'puppetdb-puppetdb-map',
+                system_username: 'ovdb2.spec',
                 database_username: 'puppetdb',
-                postgres_version:  '14',
               )
-              .that_requires('Class[openvoxdb::database::postgresql]'),
+              .with_require('Class[Openvoxdb::Database::Postgresql]'),
+          )
+          is_expected.to(
+            contain_postgresql__server__pg_ident_rule(
+              'ovox: mapping of ovdb2.spec cert as a puppetdb-read user',
+            )
+              .with(
+                map_name: 'puppetdb-puppetdb-read-map',
+                system_username: 'ovdb2.spec',
+                database_username: 'puppetdb-read',
+              )
+              .with_require('Class[Openvoxdb::Database::Postgresql]'),
           )
         end
       end
