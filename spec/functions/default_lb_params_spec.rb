@@ -16,17 +16,20 @@ describe 'ov_profile::default_lb_params' do
       )
       expect(defaults).to match(
         {
-          'mode'    => 'tcp',
-          'balance' => 'leastconn',
-          'retries' => 3,
-          'option'  => %w[
-            tcplog
-            redispatch
+          'mode'              => 'tcp',
+          'balance'           => 'leastconn',
+          'retries'           => 3,
+          'option'            => [
+            'tcplog',
+            'redispatch',
+            'httpchk GET /status/v1/simple',
           ],
-          'timeout' => [
+          'http-check expect' => 'string running',
+          'timeout'           => [
             'connect 10s',
             'client 120s',
             'server 120s',
+            'check 10s',
           ],
         },
       )
@@ -36,7 +39,15 @@ describe 'ov_profile::default_lb_params' do
       is_expected.to(
         run.with_params('compiler', 'member_options').and_return(
           [
-            'check inter 30s rise 2 fall 3',
+            [
+              'check',
+              'check-ssl',
+              'verify required',
+              'ca-file /etc/puppetlabs/puppet/ssl/certs/ca.pem',
+              'inter 10s',
+              'rise 2',
+              'fall 3',
+            ],
           ],
         ),
       )
@@ -56,19 +67,19 @@ describe 'ov_profile::default_lb_params' do
       )
       expect(defaults).to match(
         {
-          'mode'              => 'tcp',
-          'balance'           => 'leastconn',
-          'http-check expect' => 'string running',
-          'retries'           => 3,
-          'option'            => [
-            'tcplog',
-            'redispatch',
-            'httpchk GET /status/v1/simple',
+          'mode'    => 'tcp',
+          'balance' => 'leastconn',
+          'retries' => 3,
+          'option'  => %w[
+            tcplog
+            redispatch
+            ssl-hello-chk
           ],
-          'timeout'           => [
+          'timeout' => [
             'connect 10s',
             'client 10m',
             'server 10m',
+            'check 5s',
           ],
         },
       )
@@ -78,7 +89,7 @@ describe 'ov_profile::default_lb_params' do
       is_expected.to(
         run.with_params('ovdb', 'member_options').and_return(
           [
-            'check port 8080 inter 30s rise 2 fall 3',
+            'check inter 10s rise 2 fall 3',
           ],
         ),
       )

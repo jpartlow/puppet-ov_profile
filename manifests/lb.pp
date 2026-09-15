@@ -15,7 +15,7 @@ class ov_profile::lb (
     ov_profile::default_lb_params($type, 'port'),
   Variant[Hash,Array[Hash]] $haproxy_options =
     ov_profile::default_lb_params($type, 'options'),
-  Variant[String,Array[String]] $haproxy_member_options =
+  Variant[String,Array[Variant[String,Array]]] $haproxy_member_options =
     ov_profile::default_lb_params($type, 'member_options'),
 ) {
   include haproxy

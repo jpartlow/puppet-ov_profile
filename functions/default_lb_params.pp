@@ -11,7 +11,7 @@ function ov_profile::default_lb_params(
       'mode'    => 'tcp',
       'balance' => 'leastconn',
       'retries' => 3,
-    }
+    },
   }
   $type_defaults = {
     'compiler' => {
@@ -20,15 +20,26 @@ function ov_profile::default_lb_params(
         'option'  => [
           'tcplog',
           'redispatch',
+          'httpchk GET /status/v1/simple',
         ],
+        'http-check expect' => 'string running',
         'timeout' => [
           'connect 10s',
           'client 120s',
           'server 120s',
+          'check 10s',
         ],
       },
       'member_options' => [
-        'check inter 30s rise 2 fall 3',
+        [
+          'check',
+          'check-ssl',
+          'verify required',
+          'ca-file /etc/puppetlabs/puppet/ssl/certs/ca.pem',
+          'inter 10s',
+          'rise 2',
+          'fall 3',
+        ],
       ],
     },
     'ovdb' => {
@@ -37,17 +48,23 @@ function ov_profile::default_lb_params(
         'option' => [
           'tcplog',
           'redispatch',
-          'httpchk GET /status/v1/simple',
+          # If we want to upgrade this to
+          # 'httpchk GET /status/v1/simple',
+          # then we need to generate a local concatenated cert/key pem
+          # file for haproxy to use.
+          'ssl-hello-chk',
         ],
-        'http-check expect' => 'string running',
+        # If we were to hit the simple status endpoint...
+        # 'http-check expect' => 'string running',
         'timeout' => [
           'connect 10s',
           'client 10m',
           'server 10m',
+          'check 5s',
         ],
       },
       'member_options' => [
-        'check port 8080 inter 30s rise 2 fall 3',
+        'check inter 10s rise 2 fall 3',
       ],
     },
   }
