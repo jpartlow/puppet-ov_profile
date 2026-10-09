@@ -19,6 +19,21 @@ class ov_profile::postgres (
   }
 
   contain 'openvoxdb::database::postgresql'
+  # Ensure that if Postgres initdb is going to be executed, it
+  # does so *before* the ssl_configuration class lays down
+  # private/public ssl keys within the datadir that initdb will be
+  # initializing...otherwise initdb throws a hissy fit.
+  #
+  # This problem was cropping up on el systems. Debian based systems
+  # weren't running into it because the server packages initialize the
+  # cluster in a postinst step.
+  #
+  # TODO: That this isn't handled internally by puppet-openvoxdb
+  # should be looked into more closely to see if I'm using the classes
+  # wrong or if there's an ordering bug for el when
+  # openvoxdb::server::postgresql_ssl_on is true.
+  Class['postgresql::server::initdb'] ->
+    Class['openvoxdb::database::ssl_configuration']
 
   postgresql::server::config_entry { 'max_connections':
     ensure => 'present',
