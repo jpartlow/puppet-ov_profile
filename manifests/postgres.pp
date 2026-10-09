@@ -9,6 +9,15 @@ class ov_profile::postgres (
   Integer $max_connections = 200,
   Array[String[1]] $additional_ovdb_servers = [],
 ) {
+  if ($facts['os']['family'] == 'RedHat' and
+      ($facts['os']['release']['major'] in ['8','9'])) {
+    package { 'disable-builtin-dnf-postgresql-module':
+      ensure   => 'disabled',
+      name     => 'postgresql',
+      provider => 'dnfmodule',
+    }
+  }
+
   contain 'openvoxdb::database::postgresql'
 
   postgresql::server::config_entry { 'max_connections':
