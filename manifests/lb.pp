@@ -37,4 +37,21 @@ class ov_profile::lb (
     ports             => [$port],
     options           => $haproxy_member_options,
   }
+
+  # XXX: This is an selinux escape hatch, because el images have
+  # selinux enforcing and the haproxy context they ship cannot access
+  # ports like 8140, 8081 by default, or
+  # /etc/puppetlabs/puppet/ssl/certs/ca.pem,
+  # or other socket/file permissions probably related to how the
+  # puppetlabs-haproxy module sets up haproxy versus how the redhat
+  # haproxy context expects the world to be.
+  if $facts['os']['family'] == 'RedHat'
+    and $facts['selinux'] == true
+    and $facts['os']['selinux']['current_mode'] == 'enforcing'
+  {
+    class { 'selinux':
+      mode   => 'permissive',
+      before => Haproxy::Listen[$listening_service],
+    }
+  }
 }

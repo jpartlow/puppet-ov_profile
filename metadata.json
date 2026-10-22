@@ -17,6 +17,10 @@
       "version_requirement": ">= 9.1.1 < 10.0.0"
     },
     {
+      "name": "puppet-selinux",
+      "version_requirement": ">= 6.0.0 < 7.0.0"
+    },
+    {
       "name": "puppetlabs-haproxy",
       "version_requirement": ">= 9.1.0 < 10.0.0"
     }
